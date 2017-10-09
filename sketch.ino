@@ -68,28 +68,27 @@ void loop() {
   Serial.println(humidityInt);
   Serial.println(temperatureInt);
 
-   int sensorValue = analogRead(A0);
-   float outvoltage = sensorValue * (5.0 / 1023.0);
-   Serial.print("outvoltage = ");
-   Serial.print(outvoltage);
-   Serial.println("V");
-   int16_t windSpeed = round(6*outvoltage * 100);
-   Serial.print("wind speed is ");
-   Serial.print(windSpeed /100);
-   Serial.println(" level now");
-
+  int sensorValue = analogRead(A0);
+  float outvoltage = sensorValue * (5.0 / 1023.0);
+  Serial.print("utvoltage = ");
+  Serial.print(outvoltage);
+  Serial.println("V");
+  int16_t windSpeed = round(6*outvoltage * 100);
+  Serial.print("Wind speed is ");
+  Serial.print(windSpeed /100);
+  Serial.println("Km/h");
+  
   byte payload[6];
+  
   payload[0] = highByte(temperatureInt);
   payload[1] = lowByte(temperatureInt);
 
   payload[2] = highByte(humidityInt);
   payload[3] = lowByte(humidityInt);
 
-  
   payload[4] = highByte(windSpeed);
   payload[5] = lowByte(windSpeed);
   
-  //myLora.txUncnf(String(humidity) + ' ' + String(temperature));
   myLora.txBytes(payload, sizeof(payload));
   led_off();
 
